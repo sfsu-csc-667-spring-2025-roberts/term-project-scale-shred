@@ -5,14 +5,27 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node src/server/index.ts",
-    "start:dev": "nodemon --exec ts-node src/server/index.ts",
+    "start": "NODE_ENV=production ts-node src/server/index.ts",
+    "start:dev": "concurrently --names backend,frontend -c blue,green \"npm run backend:dev\" \"npm run frontend:dev\"",
+    "backend:dev": "nodemon --exec ts-node src/server/index.ts --ext ts,ejs",
+    "frontend:dev": "parcel watch --dist-dir ./public/js",
+    "frontend": "parcel build",
     "prepare": "husky",
-    "prettier": "prettier --write ./src"
+    "db:create": "node-pg-migrate create -j ts --",
+    "db:migrate": "ts-node node_modules/node-pg-migrate/bin/node-pg-migrate.js up -j ts",
+    "db:rollback": "ts-node node_modules/node-pg-migrate/bin/node-pg-migrate.js down -j ts"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sfsu-csc-667-spring-2025-roberts/term-project-scale-shred.git"
+  },
+  "targets": {
+    "chat": {
+      "source": "./src/client/chat/index.ts"
+    },
+    "games": {
+      "source": "./src/client/games/index.ts"
+    }
   },
   "keywords": [],
   "authors": "Ulices Gonzalez, Kenny Wong, Ratish Sharma, Aarzu Ali",
@@ -25,23 +38,37 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/connect-livereload": "^0.6.3",
+    "@types/connect-pg-simple": "^7.0.3",
     "@types/cookie-parser": "^1.4.8",
     "@types/express": "^5.0.1",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.13.10",
+    "concurrently": "^9.1.2",
+    "connect-livereload": "^0.6.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
+    "livereload": "^0.9.3",
     "nodemon": "^3.1.9",
+    "parcel": "^2.14.4",
     "prettier": "^3.5.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "connect-pg-simple": "^10.0.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^5.0.1",
+    "express-session": "^1.18.1",
     "http-errors": "^2.0.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "node-pg-migrate": "^7.9.1",
+    "pg": "^8.14.1",
+    "pg-promise": "^11.13.0",
+    "ts-loader": "^9.5.2"
   }
 }

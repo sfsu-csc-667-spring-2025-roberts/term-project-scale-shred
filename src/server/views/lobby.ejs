@@ -1,0 +1,15 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Uno Lobby</title>
+    </head>
+    <body>
+        <%- include('shared/menu') %>
+        <h1>Welcome <%= user.email %></h1>
+
+        <ul>
+            <li>id: <%= user.id %></li>
+            <li>gravatar: <%= user.gravatar %></li>
+        </ul>
+    </body>
+</html>

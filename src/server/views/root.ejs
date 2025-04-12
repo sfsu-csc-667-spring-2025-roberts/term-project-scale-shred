@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <!-- title should be in tab header, not in app frame. -->
         <title><%= title %></title>
+<<<<<<< Updated upstream
         <link rel='stylesheet' href='/css/style.css'/>
+=======
+        <script src="/js/chat/index" defer></script>
+>>>>>>> Stashed changes
     </head>
     <body>
+        <h1><%= title %></h1>
         <p>Hello <%= name %></p>
+        <ul>
+            <% for(let i = 0; i < 3; i++) {%>
+            <li>Item <%= i %></li>
+            <% } %>
+        </ul>
     </body>
 </html>

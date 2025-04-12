@@ -1,0 +1,33 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Uno | Login</title>
+    </head>
+    <body>
+        <form action="/auth/login" method="post">
+            <h1>Login</h1>
+
+            <% if (locals.error && error) { %>
+                <p style="color: red"><%= error %></p>
+            <% } %>
+
+            <div>
+                <label for="username">Email</label>
+                <input type="email" name="email" id="email" required placeholder="Email Address"
+                    <% if(locals.email && email) { %>
+                        value="<%= email %>"
+                    <% } %>
+                />
+            </div>
+
+            <div>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required />
+            </div>
+
+            <button type="submit">Login</button>
+
+            <a href="/auth/register">Don't have an account? Register</a>
+        </form>
+    </body>
+</html>
