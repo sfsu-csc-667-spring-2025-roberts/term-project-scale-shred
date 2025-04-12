@@ -8,7 +8,7 @@
 
 ## Team Members
 
-Aarzu Ali
-Ulices Gonzalez
-Ratish Sharma
+Aarzu Ali  
+Ulices Gonzalez  
+Ratish Sharma  
 Kenny Wong
