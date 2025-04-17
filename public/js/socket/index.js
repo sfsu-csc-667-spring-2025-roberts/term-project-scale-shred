@@ -162,7 +162,7 @@
   }
 })(
   {
-    kQu7H: [
+    "9qwek": [
       function (require, module, exports, __globalThis) {
         var global = arguments[3];
         var HMR_HOST = null;
@@ -171,7 +171,7 @@
         var HMR_SECURE = false;
         var HMR_ENV_HASH = "d6ea1d42532a7575";
         var HMR_USE_SSE = false;
-        module.bundle.HMR_BUNDLE_ID = "4619cfb1e77d6cb7";
+        module.bundle.HMR_BUNDLE_ID = "e9f76f35210f895d";
         ("use strict");
         /* global HMR_HOST, HMR_PORT, HMR_SERVER_PORT, HMR_ENV_HASH, HMR_SECURE, HMR_USE_SSE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
@@ -798,61 +798,6 @@ ${frame.code}`;
         }
       },
       {},
-    ],
-    "9YDZd": [
-      function (require, module, exports, __globalThis) {
-        var _socket = require("../socket");
-        const roomId = document.querySelector("input#room-id")?.value;
-        const parent = document.querySelector("section#chat div");
-        const messageInput = document.querySelector(
-          "section#chat form input[name=message]",
-        );
-        console.log({
-          messageInput,
-        });
-        document
-          .querySelector("section#chat form.chat-form")
-          ?.addEventListener("submit", (event) => {
-            event.preventDefault();
-            const message = messageInput?.value;
-            messageInput.value = "";
-            if (message?.trim().length === 0) return;
-            fetch(`/chat/${roomId}`, {
-              method: "post",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              credentials: "same-origin",
-              body: JSON.stringify({
-                message,
-              }),
-            });
-          });
-        // route the socket connection towards your chat message as roomId.
-        // this identifier will let you see what you chat to everyone in that roomId, including yourself,
-        // which is the format described below that is loaded into the DOM.
-        (0, _socket.socket).on(
-          `chat-message:${roomId}`,
-          ({ message, sender, gravatar, timestamp }) => {
-            const container = document
-              .querySelector("template#chat-message-template")
-              ?.content.cloneNode(true);
-            const img = container.querySelector("img");
-            img.src = `https://www.gravatar.com/avatar/${gravatar}?s=32&d=monsterid`;
-            img.alt = `${sender}'s avatar`;
-            const messageElement = container.querySelector("span.message");
-            messageElement.innerText = message;
-            const tiemstampElement = container.querySelector("span.timestamp");
-            tiemstampElement.innerText = new Date(timestamp).toLocaleString();
-            parent?.appendChild(container);
-            parent?.scrollTo({
-              top: parent.scrollHeight,
-              behavior: "smooth",
-            });
-          },
-        );
-      },
-      { "../socket": "kvDhO" },
     ],
     kvDhO: [
       function (require, module, exports, __globalThis) {
@@ -5306,8 +5251,8 @@ ${frame.code}`;
       { "@parcel/transformer-js/src/esmodule-helpers.js": "gkKU3" },
     ],
   },
-  ["kQu7H", "9YDZd"],
-  "9YDZd",
+  ["9qwek", "kvDhO"],
+  "kvDhO",
   "parcelRequire3518",
   {},
 );

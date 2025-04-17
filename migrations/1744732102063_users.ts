@@ -4,24 +4,19 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
   pgm.createTable("users", {
     id: "id",
     email: {
-      type: "varchar(40)",
-      notNull: true,
-      unique: true,
-    },
-    username: {
-      type: "varchar(30)",
+      type: "varchar(100)",
       notNull: true,
       unique: true,
     },
     password: {
-      type: "varchar(50)",
+      type: "varchar(100)",
       notNull: true,
     },
     first_name: {
-      type: "varchar(50)",
+      type: "varchar(100)",
     },
     last_name: {
-      type: "varchar(50)",
+      type: "varchar(100)",
     },
     profile_pic: {
       type: "varchar(250)",

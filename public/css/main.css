@@ -1,0 +1,48 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#container {
+  width: 800px;
+  margin: 0 auto;
+  height: 100%;
+}
+
+menu ul {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+}
+
+menu ul li {
+  margin-right: 10px;
+}
+
+img.gravatar {
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+}
+
+#lobby-container {
+  display: flex;
+}
+
+#lobby-container section {
+  width: 50%;
+}
+
+section {
+  height: 300px;
+}
+
+section#chat {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+section#chat div {
+  overflow-y: hidden;
+  flex-grow: 1;
+}

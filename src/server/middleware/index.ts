@@ -1,1 +1,2 @@
-export { default as authMiddleware } from "./auth";
+export { default as auth } from "./auth";
+export { default as room } from "./room";
