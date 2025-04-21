@@ -1,31 +1,326 @@
+* {
+  text-align: center;
+}
+
+html {
+  background-image: linear-gradient(rgb(255, 255, 255), rgba(0, 0, 0, 1));
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+}
+
+header {
+  background-color: #933311;
+  text-align: center;
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header h1 {
+  margin: 0;
+  padding-bottom: 16px;
+}
+
+h1 {
+  font-family: "Arial";
+  font-size: clamp(24px, 7vw, 72px);
+  padding-inline: 0px;
+}
+
+h2 {
+  font-family: "Arial";
+  font-size: clamp(18px, 3vw, 24px);
+  text-decoration: underline;
+  margin-top: clamp(9px, 1.5vw, 18px);
+  margin-bottom: clamp(9px, 1.5vw, 18px);
+  text-align: center;
+}
+
+ul {
+  padding: 0;
+  padding-bottom: clamp(18px, 4.5vw, 36px);
+  margin: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  color: #933311;
+  font-size: clamp(18px, 7vw, 24px);
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+a:hover {
+  color: #933311;
+  font-size: clamp(24px, 8vw, 36px);
+  font-weight: bold;
+}
+
+h1 a {
+  font-size: clamp(24px, 7vw, 48px);
+}
+
+h1 a:hover {
+  font-size: clamp(48px, 8vw, 54px);
+}
+
+#home-button {
+  font-style: italic;
+  color: #c99700;
+  text-shadow:
+    -3px -3px 0 black,
+    3px -3px 0 black,
+    -3px 3px 0 black,
+    3px 3px 0 black,
+    -3px 0 0 black,
+    3px 0 0 black,
+    0 -3px 0 black,
+    0 3px 0 black;
+  letter-spacing: clamp(4px, 1vw, 8px);
+}
+
+#home-button:hover {
+  color: #e9d597;
+}
+
+nav {
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin-top: 88px;
+  transition: 3s ease;
+}
+
+nav ul {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li {
+  font-size: clamp(18px, 24px, 36px);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  padding-left: 18px;
+  padding-right: 18px;
+  text-align: center;
+  margin-left: clamp(16px, 1vw, 32px);
+  margin-right: clamp(16px, 1vw, 32px);
+}
+
+nav ul li a {
+  font-size: clamp(16px, 1vw, 24px);
+  text-decoration: none;
+  font-family: "Arial";
+  display: flex;
+  align-items: center;
+  color: #f0f0f0;
+  transition: 0.3s ease;
+}
+
+nav a:hover {
+  font-size: clamp(24px, 1vw, 28px);
+  color: #38635a;
+}
+
+#main-nav {
+  background-color: #6b702b;
+  text-align: center;
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100%;
+  min-width: 375px;
+  margin: 0;
+  padding-top: clamp(16px, 4vw, 32px);
+  padding-left: clamp(150px, 30vw, 206px);
+  padding-right: clamp(150px, 30vw, 206px);
+  box-sizing: border-box;
+}
+
+main {
+  font-family: "Source Sans 3", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: clamp(72px, 1vw, 96px);
+}
+
+form {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  margin: 0 auto;
+}
+
+#registration-form,
+#login-form {
+  background-color: #f0f0f0;
+  padding-left: clamp(16px, 1vw, 24px);
+  padding-right: clamp(16px, 1vw, 24px);
+  border-radius: clamp(4px, 1vw, 8px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+  max-width: clamp(320px, 60vw, 640px);
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: clamp(64px, 1vw, 88px);
+}
+
+.form-item {
+  margin-top: clamp(9px, 1.5vw, 18px);
+  margin-bottom: clamp(9px, 1.5vw, 18px);
+}
+
+.form-item a {
+  margin-bottom: clamp(12px, 3vw, 24px);
+}
+
+.form-item label {
+  display: block;
+  margin-bottom: clamp(4px, 1vw, 8px);
+  font-weight: bold;
+  color: #53565a;
+  text-align: left;
+}
+
+.form-item input[type="email"],
+.form-item input[type="text"],
+.form-item input[type="password"] {
+  width: 100%;
+  padding: clamp(8px, 1.5vw, 12px);
+  border: 1px solid #53565a;
+  border-radius: 4px;
+  font-size: clamp(14px, 1.25vw, 16px);
+  box-sizing: border-box;
+}
+
+.form-button {
+  display: flex;
+  gap: clamp(8px, 2vw, 16px);
+  justify-content: center;
+  margin-top: clamp(16px, 4vw, 32px);
+  flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
+  padding: clamp(8px, 2vw, 12px) clamp(16px, 4vw, 24px);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: clamp(14px, 1.25vw, 16px);
+  transition: 0.3s ease;
+  text-align: center;
+  min-width: clamp(80px, 15vw, 100px);
+  box-sizing: border-box;
+}
+
+.submit-button {
+  background: #6b702b;
+  color: #ffffff;
+  border: none;
+  padding: clamp(0.25rem, 0.5vw, 0.5rem) clamp(0.5rem, 1vw, 1rem);
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: clamp(0.25rem, 0.5vw, 0.5rem);
+  font-family: "Arial";
+  font-size: clamp(14px, 1.25vw, 16px);
+  box-sizing: border-box;
+}
+
+.reset-button {
+  background: #26547c;
+  color: #ffffff;
+  border: none;
+  padding: clamp(0.25rem, 0.5vw, 0.5rem) clamp(0.5rem, 1vw, 1rem);
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: clamp(0.25rem, 0.5vw, 0.5rem);
+  font-family: "Arial";
+  font-size: clamp(14px, 1.25vw, 16px);
+  box-sizing: border-box;
+}
+
+.error-message {
+  color: #933311;
+  background-color: #f4f4f4;
+  padding: clamp(8px, 2vw, 12px);
+  border-radius: 4px;
+  border: 1px solid #f6f6f6;
+  margin-bottom: clamp(10px, 2.5vw, 20px);
+  font-family: "Arial";
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  font-size: clamp(14px, 1.25vw, 16px);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 #container {
   width: 800px;
-  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  margin-top: 32px;
   height: 100%;
-}
-
-menu ul {
-  display: flex;
-  flex-direction: row;
-  list-style-type: none;
-}
-
-menu ul li {
-  margin-right: 10px;
 }
 
 img.gravatar {
   border-radius: 50%;
-  width: 25px;
-  height: 25px;
+  width: 48px;
+  height: 48px;
+}
+
+.icon-container {
+  width: clamp(16px, 4vw, 48px);
+  height: clamp(16px, 4vw, 48px);
+  margin-left: clamp(4px, 1vw, 8px);
+  margin-right: clamp(4px, 1vw, 8px);
+  vertical-align: middle;
+  border-radius: 50%;
+  background-color: rgba(83, 86, 90, 0.925);
+  border: clamp(4px, 0.5vw, 8px) solid #000000;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 #lobby-container {
   display: flex;
+  margin-top: clamp(10px, 2.5vw, 20px);
+  margin-left: auto;
+  margin-right: auto;
+  padding: clamp(5px, 1.25vw, 10px);
+  position: relative;
+  max-width: 1200px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 #lobby-container section {
@@ -34,6 +329,22 @@ img.gravatar {
 
 section {
   height: 300px;
+  background-color: rgba(83, 86, 90, 0.125);
+  border-radius: clamp(4px, 1vw, 8px);
+  padding: clamp(8px, 2vw, 16px);
+  margin-bottom: clamp(5px, 1.25vw, 10px);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+#game {
+  margin-right: clamp(10px, 2vw, 20px);
+}
+
+#chat {
+  margin-left: clamp(10px, 2vw, 20px);
 }
 
 section#chat {
@@ -45,4 +356,47 @@ section#chat {
 section#chat div {
   overflow-y: hidden;
   flex-grow: 1;
+}
+
+footer {
+  background-color: #26547c;
+  text-align: center;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  z-index: 100;
+}
+
+#chat-form {
+  margin: clamp(0.5rem, 1vw, 1rem) 0;
+  padding: clamp(0.5rem, 1vw, 1rem);
+  background: rgba(83, 86, 90, 0.05);
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#message-box {
+  width: 75%;
+  border: 1px solid #f4f4f4;
+  border-radius: 4px;
+  font-family: "Arial";
+  resize: vertical;
+  font-size: clamp(14px, 1.25vw, 16px);
+  box-sizing: border-box;
+}
+
+#submit-message {
+  background: #38635a;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: "Arial";
+  font-size: clamp(14px, 1.25vw, 16px);
+  box-sizing: border-box;
+}
+
+#submit-message:hover {
+  background: #26547c;
 }

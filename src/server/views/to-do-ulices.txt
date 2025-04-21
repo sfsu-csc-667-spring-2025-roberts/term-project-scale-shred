@@ -1,6 +1,3 @@
 TODO:
-1. have the landing page, register, login, lobby, game room, and everything specified in the drawing be included.
-2. make the pages look nice
-3. look at the db tables in migrations directory for what to include 
 4. add parameters based on those values
 5. whatever else you might need.

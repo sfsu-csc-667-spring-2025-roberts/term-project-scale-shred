@@ -1,28 +1,36 @@
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Uno Lobby</title>
+        <title>
+            <%= title %>
+        </title>
         <%- include('shared/head') %>
     </head>
     <body>
-        <div id="container">
-            <%- include('shared/menu') %>
-            <h1>
-                <img class="gravatar" src="https://www.gravatar.com/avatar/<%= user.gravatar %>?s=32&d=monsterid" />
-                Welcome <%= user.email %> (<%= user.id %>)
-            </h1>
-            <div id="lobby-container">
-                <section>Games go here</section>
+        <header>
+            <h1><a id="home-button" href="/">Scale Shred UNO</a></h1>
+        </header>
+        <%- include('shared/menu') %>
+        <main>
+            <div id="container">
+                <h2>
+                    Welcome <%= user.email %> (<%= user.id %>)
+                </h2>
+                <div class="icon-container"><img class="gravatar" src="https://www.gravatar.com/avatar/<%= user.gravatar %>?s=32&d=monsterid" /></div>
                 
-                <section id="chat">
-                    <div></div>
-                    <form class="chat-form">
-                        <input type="text" id="message" name="message" placeholder="Type your message here">
-                        <button type="submit">Send</button>
-                    </form>
-                </section>
+                <div id="lobby-container">
+                    <section id="game">Games go here</section>
+                    
+                    <section id="chat">
+                        <form class="chat-form">
+                            <input type="text" id="message-box" name="message" placeholder="Type your message here">
+                            <button id="submit-message" type="submit">Send</button>
+                        </form>
+                    </section>
+                </div>
             </div>
-        </div>
+        </main>
         <%- include('shared/templates') %>
     </body>
 </html>

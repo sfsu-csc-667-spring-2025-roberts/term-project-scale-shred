@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="UTF-8" />
         <title><%= title %></title>
-        <!-- <link rel='stylesheet' href='/css/style.css'/>
-        <script src="/js/chat/index" defer></script> -->
+        <link rel="stylesheet" href="/css/main.css">
+        <!--<script src="/js/chat/index" defer></script> -->
     </head>
     <body>
-        <h1><%= title %></h1>
-        <p>Hello <%= name %></p>
-        <ul>
-            <% for(let i = 0; i < 3; i++) {%>
-            <li>Item <%= i %></li>
-            <% } %>
-        </ul>
+        <header>
+            <h1><a id="home-button" href="/">Scale Shred UNO</a></h1>
+        </header>
+        <%- include('shared/guestMenu') %>
     </body>
 </html>

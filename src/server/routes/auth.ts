@@ -6,7 +6,7 @@ import { User } from "../db";
 const router = express.Router();
 
 router.get("/register", async (_request: Request, response: Response) => {
-  response.render("auth/register");
+  response.render("auth/register", { title: "Register" });
 });
 
 router.post("/register", async (request: Request, response: Response) => {
@@ -20,12 +20,15 @@ router.post("/register", async (request: Request, response: Response) => {
     response.redirect("/lobby");
   } catch (error) {
     console.error("Error registering user:", error);
-    response.render("auth/register", { error: "Invalid credentials." });
+    response.render("auth/register", {
+      title: "Register",
+      error: "Invalid credentials.",
+    });
   }
 });
 
 router.get("/login", async (_request: Request, response: Response) => {
-  response.render("auth/login");
+  response.render("auth/login", { title: "Login" });
 });
 
 router.post("/login", async (request: Request, response: Response) => {
