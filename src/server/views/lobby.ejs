@@ -17,12 +17,15 @@
                 <h2>
                     Welcome <%= user.email %> (<%= user.id %>)
                 </h2>
+                <!-- TODO: user has to have their own gravatar -->
                 <div class="icon-container"><img class="gravatar" src="https://www.gravatar.com/avatar/<%= user.gravatar %>?s=32&d=monsterid" /></div>
                 
                 <div id="lobby-container">
                     <section id="game">Games go here</section>
                     
                     <section id="chat">
+                        <!-- not the most ideal approach to displaying chat messages. -->
+                        <div class="chat-message"></div>
                         <form class="chat-form">
                             <input type="text" id="message-box" name="message" placeholder="Type your message here">
                             <button id="submit-message" type="submit">Send</button>
