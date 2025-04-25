@@ -10,10 +10,10 @@ router.get("/register", async (_request: Request, response: Response) => {
 });
 
 router.post("/register", async (request: Request, response: Response) => {
-  const { email, password } = request.body;
+  const { email, username, password } = request.body;
 
   try {
-    const user = await User.register(email, password);
+    const user = await User.register(email, username, password);
 
     // @ts-ignore
     request.session.user = user;
@@ -32,10 +32,10 @@ router.get("/login", async (_request: Request, response: Response) => {
 });
 
 router.post("/login", async (request: Request, response: Response) => {
-  const { email, password } = request.body;
+  const { identifier, password } = request.body;
 
   try {
-    const user = await User.login(email, password);
+    const user = await User.login(identifier, password);
 
     // @ts-ignore
     request.session.user = user;

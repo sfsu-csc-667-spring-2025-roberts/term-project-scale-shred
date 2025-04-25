@@ -35,6 +35,15 @@
                         </div>
 
                         <div class="form-item">
+                            <label for="username">Username</label>
+                            <input type="text" name="username" id="username" required placeholder="Username" reuqired <%
+                                if(locals.username && username) { %>
+                            value="<%= username %>"
+                                <% } %>
+                                    />
+                        </div>
+
+                        <div class="form-item">
                             <label for="password">Password</label>
                             <input type="password" name="password" id="password" placeholder="Password" required />
                         </div>

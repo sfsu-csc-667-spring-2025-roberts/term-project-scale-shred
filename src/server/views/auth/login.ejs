@@ -23,12 +23,16 @@
                         <%= error %>
                     </p>
                     <% } %>
-
                         <div class="form-item">
-                            <label for="username">Email</label>
-                            <input type="email" name="email" id="email" required placeholder="Email Address" <%
-                                if(locals.email && email) { %>
-                            value="<%= email %>"
+                            <label for="identifier">Email or Username</label>
+                            <input 
+                                type="text" 
+                                name="identifier" 
+                                id="identifier" 
+                                required 
+                                placeholder="Email or Username" 
+                                <% if(locals.identifier && identifier) { %>
+                            value="<%= identifier %>"
                                 <% } %>
                                     />
                         </div>
