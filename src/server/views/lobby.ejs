@@ -17,11 +17,35 @@
                 <h2>
                     Welcome <%= user.username %>
                 </h2>
-                <!-- TODO: user has to have their own gravatar -->
-                <div class="icon-container"><img class="gravatar" src="https://www.gravatar.com/avatar/<%= user.gravatar %>?s=32&d=monsterid" /></div>
+                <div class="icon-container">
+                    <img class="gravatar" src="https://www.gravatar.com/avatar/<%= user.gravatar %>?s=32&d=monsterid" />
+                </div>
+
+                <button id="create-game-button">Create Game</button>
                 
+                <!-- hard-coded for now. we can make these dynamic later. put these in shared directory later -->
                 <div id="lobby-container">
-                    <section id="game">Games go here</section>
+                    <section id="game">
+                        <h2>Join games</h2>
+                        <div class="game-instance">
+                            <div class="game-info">
+                                <span class="game-name">Game 1</span>
+                                <span class="players">user1, user2, user3</span>
+                            </div>
+                            <form action="/games/join/1" method="post">
+                                <button type="submit">Join</button>
+                            </form>
+                        </div>    
+                        <div class="game-instance">
+                            <div class="game-info">
+                                <span class="game-name">Game 2</span>
+                                <span class="players">user1, user2, user3</span>
+                            </div>
+                            <form action="/games/join/2" method="post">
+                                <button type="submit">Join</button>
+                            </form>
+                        </div> 
+                    </section>
                     
                     <section id="chat">
                         <!-- not the most ideal approach to displaying chat messages. -->
@@ -34,6 +58,7 @@
                 </div>
             </div>
         </main>
+        <%- include('games/create-form') %>
         <%- include('shared/templates') %>
     </body>
 </html>

@@ -6,13 +6,11 @@
     </head>
     <body>
         <div id="container">
-            <%- include('shared/menu') %>
             <h1>
                 <img class="gravatar" src="https://www.gravatar.com/avatar/<%= user.gravatar %>?s=32&d=monsterid" />
-                Welcome <%= user.email %> (<%= user.id %>)
+                Welcome <%= user.username %>
             </h1>
             Game page <%= gameId %>
         </div>
-        <%- include('shared/templates') %>
     </body>
 </html>

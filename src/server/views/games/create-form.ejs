@@ -1,0 +1,34 @@
+<div id="create-game-container">
+    <form action="/games/create" method="post">
+        <a href="#" id="close-create-game-form">
+            <i class="nf nf-md-close_circle_outline"></i>
+        </a>
+        <div>
+            <label for="description">Some Description</label>
+            <input 
+                type="text"
+                id="description"
+                name="description"
+                placeholder="Optional game description"
+            />
+        </div>
+        <div>
+            <label for="min-player">Min Players</label>
+            <input type="number" id="min-player" name="minPlayers" value="2" />
+        </div>
+        <div>
+            <label for="max-player">Min Players</label>
+            <input type="number" id="max-player" name="maxPlayers" value="4" />
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input 
+                type="text"
+                id="password"
+                name="password"
+                placeholder="Optional password"
+            />
+        </div>
+        <button type="submit">Create Game</button>
+    </form>
+</div>
