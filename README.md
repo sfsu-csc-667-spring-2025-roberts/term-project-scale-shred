@@ -6,5 +6,6 @@
 
 ### Game Project: Uno
 
+## Team Members
 
-Trying to make it pushed!
+Ratish Sharma
