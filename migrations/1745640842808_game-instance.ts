@@ -1,7 +1,7 @@
 import { MigrationBuilder } from "node-pg-migrate";
 
 export async function up(pgm: MigrationBuilder): Promise<void> {
-  pgm.createTable("game-instance", {
+  pgm.createTable("game_instance", {
     id: {
       type: "serial",
       primaryKey: true,
@@ -31,5 +31,5 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
 }
 
 export async function down(pgm: MigrationBuilder): Promise<void> {
-  pgm.dropTable("game-instance");
+  pgm.dropTable("game_instance");
 }

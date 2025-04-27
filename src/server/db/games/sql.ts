@@ -9,9 +9,9 @@ VALUES ($1, $2)`;
 
 export const CONDITIONALLY_JOIN_SQL = `
 INSERT INTO game_users (game_id, user_id)
-SELECT $(game_id), $(user_id)
+SELECT $(gameId), $(userId)
 WHERE NOT EXISTS (
-    SELECT 'some-value-idk'
+    SELECT 1
     FROM game_users
     WHERE game_id=$(gameId) AND user_id=$(userId)
 )
@@ -20,7 +20,7 @@ AND (
 ) = 1
 AND (
     (
-        SELECT COUNT(*) FROM game_instance WHERE game_id=$(gameId)
+        SELECT COUNT(*) FROM game_users WHERE game_id=$(gameId)
     ) < (
         SELECT max_players FROM game_instance WHERE id=$(gameId)
     )

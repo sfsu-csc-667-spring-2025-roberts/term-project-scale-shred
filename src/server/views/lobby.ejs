@@ -24,27 +24,27 @@
                 <button id="create-game-button">Create Game</button>
                 
                 <!-- hard-coded for now. we can make these dynamic later. put these in shared directory later -->
+                <!-- added the dynamic EJS code: this will show only real games from our database [backend] GET /lobby 304 1.605 ms -->
                 <div id="lobby-container">
                     <section id="game">
                         <h2>Join games</h2>
-                        <div class="game-instance">
-                            <div class="game-info">
-                                <span class="game-name">Game 1</span>
-                                <span class="players">user1, user2, user3</span>
-                            </div>
-                            <form action="/games/join/1" method="post">
-                                <button type="submit">Join</button>
-                            </form>
-                        </div>    
-                        <div class="game-instance">
-                            <div class="game-info">
-                                <span class="game-name">Game 2</span>
-                                <span class="players">user1, user2, user3</span>
-                            </div>
-                            <form action="/games/join/2" method="post">
-                                <button type="submit">Join</button>
-                            </form>
-                        </div> 
+                        <% if (games && games.length > 0) { %>
+                            <% games.forEach(function(game) { %>
+                                <div class="game-instance">
+                                    <div class="game-info">
+                                        <span class="game-name"><%= game.name || ("Game " + game.id) %></span>
+                                        <% if (game.players) { %>
+                                            <span class="players"><%= game.players.join(", ") %></span>
+                                        <% } %>
+                                    </div>
+                                    <form action="/games/join/<%= game.id %>" method="post">
+                                        <button type="submit">Join</button>
+                                    </form>
+                                </div>
+                            <% }); %>
+                        <% } else { %>
+                            <div>No games available.</div>
+                        <% } %>
                     </section>
                     
                     <section id="chat">
@@ -60,5 +60,27 @@
         </main>
         <%- include('games/create-form') %>
         <%- include('shared/templates') %>
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            const createBtn = document.getElementById("create-game-button");
+            const createForm = document.getElementById("create-game-container");
+            const closeBtn = document.getElementById("close-create-game-form");
+            if (createBtn && createForm) {
+              createBtn.addEventListener("click", function() {
+                createForm.style.display = "block";
+              });
+            }
+            if (closeBtn && createForm) {
+              closeBtn.addEventListener("click", function(e) {
+                e.preventDefault();
+                createForm.style.display = "none";
+              });
+            }
+            // Hide the form by default
+            if (createForm) {
+              createForm.style.display = "none";
+            }
+          });
+        </script>
     </body>
 </html>

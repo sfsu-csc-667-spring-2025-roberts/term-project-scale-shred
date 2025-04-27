@@ -3,8 +3,8 @@ import { ADD_PLAYER, CONDITIONALLY_JOIN_SQL, CREATE_SQL } from "./sql";
 
 const create = async (
   name: string,
-  minPlayers: string,
-  maxPlayers: string,
+  minPlayers: number,
+  maxPlayers: number,
   password: string,
   userId: number,
 ) => {
