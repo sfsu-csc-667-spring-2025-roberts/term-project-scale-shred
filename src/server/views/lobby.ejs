@@ -1,86 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>
-            <%= title %>
-        </title>
-        <%- include('shared/head') %>
-    </head>
-    <body>
-        <header>
-            <h1><a id="home-button" href="/">Scale Shred UNO</a></h1>
-        </header>
-        <%- include('shared/menu') %>
-        <main>
-            <div id="container">
+
+<head>
+    <meta charset="UTF-8">
+    <title>
+        <%= title %>
+    </title>
+    <%- include('shared/head') %>
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
+            <h1>
+                Scale Shred UNO!
+            </h1>
+        </div>
+    </header>
+    <main>
+        <div id="container">
+            <div class="sub-header">
                 <h2>
                     Welcome <%= user.username %>
                 </h2>
                 <div class="icon-container">
                     <img class="gravatar" src="https://www.gravatar.com/avatar/<%= user.gravatar %>?s=32&d=monsterid" />
                 </div>
+            </div>
 
-                <button id="create-game-button">Create Game</button>
-                
-                <!-- hard-coded for now. we can make these dynamic later. put these in shared directory later -->
-                <!-- added the dynamic EJS code: this will show only real games from our database -->
-                <div id="lobby-container">
-                    <section id="game">
-                        <h2>Join games</h2>
-                        <% if (games && games.length > 0) { %>
+            <!-- hard-coded for now. we can make these dynamic later. put these in shared directory later -->
+            <!-- added the dynamic EJS code: this will show only real games from our database -->
+            <div id="lobby-container">
+                <section id="game">
+                    <h2>Join games</h2>
+                    <button id="create-game-button">Create Game</button>
+                    <div class="games-container">
+                        <div class="chat-message"></div>
+                        <% if (games && games.length> 0) { %>
                             <% games.forEach(function(game) { %>
                                 <div class="game-instance">
                                     <div class="game-info">
-                                        <span class="game-name"><%= game.name || ("Game " + game.id) %></span>
-                                        <% if (game.players) { %>
-                                            <span class="players"><%= game.players.join(", ") %></span>
-                                        <% } %>
+                                        <span class="game-name">
+                                            <%= game.name || ("Game " + game.id) %></span>
+                                            <% if (game.players) { %>
+                                                <span class=" players">
+                                                <%= game.players.join(", ") %></span>
+                                            <% } %>
+                                        </div>
+                                        <form action=" /games/join/<%=game.id %>" method="post">
+                                                    <button type="submit">Join</button>
+                                                    </form>
                                     </div>
-                                    <form action="/games/join/<%= game.id %>" method="post">
-                                        <button type="submit">Join</button>
-                                    </form>
+                                    <% }); %>
+                                        <% } else { %>
+                                            <div>No games available.</div>
+                                            <% } %>
                                 </div>
-                            <% }); %>
-                        <% } else { %>
-                            <div>No games available.</div>
-                        <% } %>
-                    </section>
-                    
-                    <section id="chat">
-                        <!-- not the most ideal approach to displaying chat messages. -->
+                </section>
+
+                <section id="chat">
+                    <div class="chat-container">
                         <div class="chat-message"></div>
-                        <form class="chat-form">
-                            <input type="text" id="message-box" name="message" placeholder="Type your message here">
-                            <button id="submit-message" type="submit">Send</button>
-                        </form>
-                    </section>
-                </div>
+                    </div>
+                    <form class="chat-form">
+                        <input type="text" id="message-box" name="message" placeholder="Type your message here">
+                        <button id="submit-message" type="submit">Send</button>
+                    </form>
+                </section>
             </div>
-        </main>
-        <%- include('games/create-form') %>
+        </div>
+    </main>
+    <%- include('games/create-form') %>
         <%- include('shared/templates') %>
-        <script>
-          document.addEventListener("DOMContentLoaded", function() {
-            const createBtn = document.getElementById("create-game-button");
-            const createForm = document.getElementById("create-game-container");
-            const closeBtn = document.getElementById("close-create-game-form");
-            if (createBtn && createForm) {
-              createBtn.addEventListener("click", function() {
-                createForm.style.display = "block";
-              });
-            }
-            if (closeBtn && createForm) {
-              closeBtn.addEventListener("click", function(e) {
-                e.preventDefault();
-                createForm.style.display = "none";
-              });
-            }
-            // Hide the form by default
-            if (createForm) {
-              createForm.style.display = "none";
-            }
-          });
-        </script>
-    </body>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const createBtn = document.getElementById("create-game-button");
+                    const createForm = document.getElementById("create-game-container");
+                    const closeBtn = document.getElementById("close-create-game-form");
+                    if (createBtn && createForm) {
+                        createBtn.addEventListener("click", function () {
+                            createForm.style.display = "block";
+                        });
+                    }
+                    if (closeBtn && createForm) {
+                        closeBtn.addEventListener("click", function (e) {
+                            e.preventDefault();
+                            createForm.style.display = "none";
+                        });
+                    }
+                    // Hide the form by default
+                    if (createForm) {
+                        createForm.style.display = "none";
+                    }
+                });
+            </script>
+</body>
+
 </html>

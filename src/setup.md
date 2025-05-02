@@ -32,9 +32,7 @@
 
 ##### 5. exit the local host by enter ctrl + c in the command line then enter 'Y' or 'y'
 
-##### 6. lastly create an instance of the db on your machine with the following
-
-###### fair warning i installed psql and postgres on my pc but the dependency should be installed by step 1 i personally used pip install psql since i already have python installed on my pc
+##### 6. lastly create an instance of the db on your machine
 
 ###### if it wasnt install them and when doing set up if it prompts for password do 12345 for the sake of simplicity
 

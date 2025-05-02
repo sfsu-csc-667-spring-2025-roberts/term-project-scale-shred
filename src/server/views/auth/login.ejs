@@ -6,52 +6,50 @@
     <title>
         <%= title %>
     </title>
-    <link rel="stylesheet" href="/css/main.css">
+    <%- include('../shared/head') %>
 </head>
 
 <body>
     <header>
-        <h1><a id="home-button" href="/">Scale Shred UNO</a></h1>
+        <div class="logo-container">
+            <h1>
+                Scale Shred UNO!
+            </h1>
+        </div>
     </header>
-    <%- include('../shared/guestMenu') %>
-        <main>
-            <form id="login-form" action="/auth/login" method="post">
-                <h2>Log In</h2>
+    <main>
+        <form id="login-form" action="/auth/login" method="post">
+            <h2>Log In</h2>
 
-                <% if (locals.error && error) { %>
-                    <p class="error-message">
-                        <%= error %>
-                    </p>
-                    <% } %>
-                        <div class="form-item">
-                            <label for="identifier">Email or Username</label>
-                            <input 
-                                type="text" 
-                                name="identifier" 
-                                id="identifier" 
-                                required 
-                                placeholder="Email or Username" 
-                                <% if(locals.identifier && identifier) { %>
-                            value="<%= identifier %>"
-                                <% } %>
-                                    />
-                        </div>
+            <% if (locals.error && error) { %>
+                <p class="error-message">
+                    <%= error %>
+                </p>
+                <% } %>
+                    <div class="form-item">
+                        <label for="identifier">Email or Username</label>
+                        <input type="text" name="identifier" id="identifier" required placeholder="Email or Username" <%
+                            if(locals.identifier && identifier) { %>
+                        value="<%= identifier %>"
+                            <% } %>
+                                />
+                    </div>
 
-                        <div class="form-item">
-                            <label for="password">Password</label>
-                            <input type="password" name="password" id="password" placeholder="Password" required />
-                        </div>
+                    <div class="form-item">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" placeholder="Password" required />
+                    </div>
 
-                        <div class="form-button">
-                            <button class="submit-button" type="submit">Login</button>
-                            <button class="reset-button" type="reset">Clear</button>
-                        </div>
+                    <div class="form-button">
+                        <button class="submit-button" type="submit">Login</button>
+                        <button class="reset-button" type="reset">Clear</button>
+                    </div>
 
-                        <div class="form-item">
-                            <a href="/auth/register">Don't have an account? Register!</a>
-                        </div>
-            </form>
-        </main>
+                    <div class="form-item">
+                        <a href="/auth/register">Don't have an account? Register Here!</a>
+                    </div>
+        </form>
+    </main>
 </body>
 
 </html>

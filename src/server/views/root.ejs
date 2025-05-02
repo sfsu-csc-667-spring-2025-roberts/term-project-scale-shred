@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title><%= title %></title>
-        <link rel="stylesheet" href="/css/main.css">
-        <!--<script src="/js/chat/index" defer></script> -->
-    </head>
-    <body>
-        <header>
-            <h1><a id="home-button" href="/">Scale Shred UNO</a></h1>
-        </header>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>
+        <%= title %>
+    </title>
+    <%- include('shared/head') %>
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
+            <h1>
+                Scale Shred UNO!
+            </h1>
+        </div>
+    </header>
+    <main>
         <%- include('shared/guestMenu') %>
-    </body>
+    </main>
+</body>
+
 </html>

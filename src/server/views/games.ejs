@@ -1,16 +1,26 @@
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Uno Lobby</title>
-        <%- include('shared/head') %>
-    </head>
-    <body>
-        <div id="container">
+
+<head>
+    <meta charset="UTF-8">
+    <title>
+    </title>
+    <%- include('shared/head') %>
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
             <h1>
-                <img class="gravatar" src="https://www.gravatar.com/avatar/<%= user.gravatar %>?s=32&d=monsterid" />
-                Welcome <%= user.username %>
+                Scale Shred UNO!
             </h1>
+        </div>
+    </header>
+    <main>
+        <div id="container">
             Game page <%= gameId %>
         </div>
-    </body>
+    </main>
+</body>
+
 </html>

@@ -4,9 +4,11 @@ import { Request, Response } from "express";
 import { User } from "../db";
 
 const router = express.Router();
+const baseTitle: string = "Scale Shred UNO";
 
 router.get("/register", async (_request: Request, response: Response) => {
-  response.render("auth/register", { title: "Register" });
+  const title = `${baseTitle} | Register`;
+  response.render("auth/register", { title });
 });
 
 router.post("/register", async (request: Request, response: Response) => {
@@ -14,21 +16,24 @@ router.post("/register", async (request: Request, response: Response) => {
 
   try {
     const user = await User.register(email, username, password);
+    const title = "Scale Shred UNO";
 
     // @ts-ignore
     request.session.user = user;
     response.redirect("/lobby");
   } catch (error) {
     console.error("Error registering user:", error);
+    const title = `${baseTitle} | Register`;
     response.render("auth/register", {
-      title: "Register",
+      title,
       error: "Invalid credentials.",
     });
   }
 });
 
 router.get("/login", async (_request: Request, response: Response) => {
-  response.render("auth/login", { title: "Login" });
+  const title = `${baseTitle} | Login`;
+  response.render("auth/login", { title });
 });
 
 router.post("/login", async (request: Request, response: Response) => {
@@ -41,7 +46,11 @@ router.post("/login", async (request: Request, response: Response) => {
     request.session.user = user;
     response.redirect("/lobby");
   } catch (error) {
-    response.render("auth/login", { error: "Invalid email or password." });
+    const title = `${baseTitle} | Login`;
+    response.render("auth/login", {
+      title,
+      error: "Invalid email or password.",
+    });
   }
 });
 

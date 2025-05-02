@@ -7,14 +7,17 @@
     <title>
         <%= title %>
     </title>
-    <link rel="stylesheet" href="/css/main.css">
+    <%- include('../shared/head') %>
 </head>
 
 <body>
     <header>
-        <h1><a id="home-button" href="/">Scale Shred UNO</a></h1>
+        <div class="logo-container">
+            <h1>
+                Scale Shred UNO!
+            </h1>
+        </div>
     </header>
-    <%- include('../shared/guestMenu') %>
         <main>
             <form id="registration-form" action="/auth/register" method="post">
                 <h2>Register</h2>
