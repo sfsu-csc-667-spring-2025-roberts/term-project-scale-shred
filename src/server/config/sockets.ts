@@ -11,16 +11,23 @@ const configSockets = (io: Server, app: Express) => {
     // @ts-ignore
     const { id, user } = socket.request.session;
 
-    console.log(
-      `User [${user.id}] Connected: ${user.username} with session id ${id}`,
-    );
-    socket.join(user.id);
-
-    socket.on("disconnect", () => {
+    if (user) {
       console.log(
-        `User [${user.id}] Disconnected: ${user.username} with session id ${id}`,
+        `User [${user.id}] Connected: ${user.username} with session id ${id}`,
       );
-    });
+      socket.join(user.id);
+
+      socket.on("disconnect", () => {
+        console.log(
+          `User [${user.id}] Disconnected: ${user.username} with session id ${id}`,
+        );
+      });
+    } else {
+      console.log(`Anon Connected with session id ${id}`);
+      socket.on("disconnect", () => {
+        console.log(`Anon Disconnected with session id ${id}`);
+      });
+    }
   });
 };
 
