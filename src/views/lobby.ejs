@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>UNO Lobby</title>
+</head>
+<body>
+  <h1>UNO Game Lobby</h1>
+
+  <form method="POST" action="/games">
+    <input name="name" placeholder="Game Name" required />
+    <input name="minPlayers" type="number" placeholder="Min Players" required />
+    <input name="maxPlayers" type="number" placeholder="Max Players" required />
+    <input name="password" placeholder="Password (optional)" />
+    <button type="submit">Create Game</button>
+  </form>
+</body>
+</html>
