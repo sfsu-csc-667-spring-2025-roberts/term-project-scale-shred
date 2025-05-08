@@ -1,9 +1,11 @@
-export { default as User } from "./users";
-export { default as Game } from "./games";
-
 import { Pool } from "pg";
 import dotenv from "dotenv";
 dotenv.config();
+
+import User from "./users";
+import Game from "./games";
+
+export { User, Game };
 
 export const pool = new Pool({
   user: process.env.DB_USER,

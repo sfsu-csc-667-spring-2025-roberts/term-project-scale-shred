@@ -11,9 +11,9 @@
     "frontend:dev": "parcel watch --dist-dir ./public/js",
     "frontend": "parcel build",
     "prepare": "husky",
-    "db:create": "node-pg-migrate create -j ts --",
-    "db:migrate": "ts-node node_modules/node-pg-migrate/bin/node-pg-migrate.js up -j ts",
-    "db:rollback": "ts-node node_modules/node-pg-migrate/bin/node-pg-migrate.js down -j ts"
+    "db:create": "node-pg-migrate create --migrations-dir src/server/db/migrations --migration-file-language sql",
+    "db:migrate": "dotenv -e .env -- node-pg-migrate up --migrations-dir src/server/db/migrations",
+    "db:rollback": "dotenv -e .env -- node-pg-migrate down --migrations-dir src/server/db/migrations"
   },
   "repository": {
     "type": "git",
@@ -51,6 +51,7 @@
     "@types/pg": "^8.11.14",
     "concurrently": "^9.1.2",
     "connect-livereload": "^0.6.1",
+    "dotenv-cli": "^8.0.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
     "livereload": "^0.9.3",

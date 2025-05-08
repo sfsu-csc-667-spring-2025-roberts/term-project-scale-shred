@@ -54,3 +54,9 @@ export async function prepareGame({
   );
   return result.rows[0];
 }
+
+export default {
+  createGame,
+  updateGame,
+  prepareGame,
+};

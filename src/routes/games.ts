@@ -1,61 +1,116 @@
-import { Router } from "express";
-import { createGame, updateGame, prepareGame } from "../server/db/games";
+import express from "express";
+import { Request, Response } from "express";
 
-const router = Router();
+import { Game } from "../db";
+import { prepareGame } from "../db/games";
+import { getPlayersInGame } from "../db";
 
-// POST request to create a new game
-router.post("/", async (req, res) => {
-  const { name, minPlayers, maxPlayers, password } = req.body;
+const router = express.Router();
+
+router.post("/create", async (request: Request, response: Response) => {
+  // @ts-ignore
+  const { id: userId } = request.session.user;
+  const { description, minPlayers, maxPlayers, password } = request.body;
 
   try {
-    const game = await createGame(
-      name,
-      minPlayers,
-      maxPlayers,
-      password || null,
+    const minPlayersInt = parseInt(minPlayers, 10);
+    const maxPlayersInt = parseInt(maxPlayers, 10);
+    if (isNaN(minPlayersInt) || isNaN(maxPlayersInt)) {
+      return response.redirect(
+        "/lobby?createError=Player counts must be numbers.",
+      );
+    }
+    const gameId = await Game.create(
+      description,
+      minPlayersInt,
+      maxPlayersInt,
+      password,
+      userId,
     );
-    res.status(201).json({ success: true, game });
-  } catch (err) {
-    const error = err as Error;
-    console.error("Error creating game:", error.message, error.stack);
-    res.status(500).json({ success: false, error: "Failed to create game" });
+    response.redirect(`/games/${gameId}`);
+  } catch (error: any) {
+    console.error("Game creation error:", error);
+    return response.redirect(
+      `/lobby?createError=Could not create game. Please check your input and try again.`,
+    );
   }
 });
 
-// POST request to add a player to a game
-router.post("/:gameId/join", async (req, res) => {
-  const { gameId } = req.params;
-  const { playerName } = req.body;
+router.post("/join/:gameId", async (request: Request, response: Response) => {
+  const { gameId } = request.params;
+  const { password } = request.body;
+  // @ts-ignore
+  const { id: userId } = request.session.user;
 
   try {
-    const game = await updateGame(gameId, playerName);
-    res.status(200).json({ success: true, game });
-  } catch (err) {
-    const error = err as Error;
-    console.error("Error starting game:", error.message, error.stack);
-    res.status(500).json({ success: false, error: "Failed to start game." });
+    const playerCount = await Game.join(userId, parseInt(gameId), password);
+    console.log({ playerCount });
+    response.redirect(`/games/${gameId}`);
+  } catch (error: any) {
+    console.log({ error });
+    if (error?.name === "QueryResultError" && error?.code === "0") {
+      return response.redirect(
+        `/lobby?joinError=Could not join game: wrong password, already joined, or game is full.`,
+      );
+    }
+    response.redirect("/lobby");
   }
 });
 
-// POST request to start the game and save state
-router.post("/game/:gameId/:checksum", async (req, res) => {
+router.get("/:gameId", (request: Request, response: Response) => {
+  const { gameId } = request.params;
+  response.render("games", { gameId });
+});
+
+router.post("/game/:gameId/:checksum", async (req: Request, res: Response) => {
   const { gameId, checksum } = req.params;
-  const { players, deck, topCard, activePlayer } = req.body;
 
   try {
-    await prepareGame({
-      gameId,
-      checksum,
-      players,
+    const suits = ["red", "green", "blue", "yellow"];
+    const values = [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "skip",
+      "reverse",
+      "draw2",
+    ];
+    const wilds = ["wild", "wild_draw4"];
+    let deck: string[] = [];
+
+    suits.forEach((color) => {
+      values.forEach((value) => {
+        const card = `${color}_${value}`;
+        deck.push(card);
+        if (value !== "0") deck.push(card);
+      });
+    });
+
+    for (let i = 0; i < 4; i++) deck.push(...wilds);
+    deck = deck.sort(() => Math.random() - 0.5);
+
+    const players = await getPlayersInGame(parseInt(gameId));
+    const topCard = deck.pop();
+    const activePlayer = players[0]?.user_id;
+
+    await prepareGame(parseInt(gameId), {
       deck,
       topCard,
       activePlayer,
+      checksum,
     });
 
-    res.status(200).json({ success: true, message: "Game started." });
+    res.status(200).json({ success: true });
   } catch (err) {
-    console.error("Error starting game:", err);
-    res.status(500).json({ success: false, error: "Failed to start game." });
+    console.error("Error preparing game:", err);
+    res.status(500).json({ error: "Game preparation failed" });
   }
 });
 
