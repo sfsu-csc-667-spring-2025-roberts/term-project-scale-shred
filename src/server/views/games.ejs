@@ -19,6 +19,16 @@
     <main>
         <div id="container">
             Game page <%= gameId %>
+                <ul id="player-list">
+                    <% if (players && players.length> 0) { %>
+                        <% players.forEach(player=> { %>
+                            <li>
+                                <%= player.username %>
+                            </li>
+                            <% }); %>
+                                <% } else { %>
+                                    <li>No players currently in the lobby.</li>
+                                    <% } %>
         </div>
     </main>
 </body>

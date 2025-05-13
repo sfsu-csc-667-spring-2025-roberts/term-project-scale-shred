@@ -422,6 +422,7 @@ section#chat .chat-container {
   border: 1px solid #0a0c0c;
   margin-bottom: 0.5rem;
   background-color: #e3e3e3;
+  width: 85%;
 }
 
 .game-info {

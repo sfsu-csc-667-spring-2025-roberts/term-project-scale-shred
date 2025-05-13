@@ -26,7 +26,7 @@ const join = async (userId: number, gameId: number, password: string = "") => {
     {
       gameId,
       userId,
-      password,
+      password: password.trim(),
     },
   );
 

@@ -2,6 +2,7 @@ import express from "express";
 import { Request, Response } from "express";
 
 import { Game } from "../db";
+import db from "../db/connection";
 
 const router = express.Router();
 
@@ -61,9 +62,26 @@ router.post("/join/:gameId", async (request: Request, response: Response) => {
   }
 });
 
-router.get("/:gameId", (request: Request, response: Response) => {
+router.get("/:gameId", async (request: Request, response: Response) => {
   const { gameId } = request.params;
-  response.render("games", { gameId });
+
+  try {
+    //gathers player data to output
+    const players = await db.any(
+      `
+      SELECT u.username
+      FROM game_users gp
+      JOIN users u ON gp.user_id = u.id
+      WHERE gp.game_id = $1
+    `,
+      [gameId],
+    );
+
+    response.render("games", { gameId, players }); // Passes the players data
+  } catch (error) {
+    console.error("Error fetching game players:", error);
+    response.render("games", { gameId, players: [] });
+  }
 });
 
 export default router;
