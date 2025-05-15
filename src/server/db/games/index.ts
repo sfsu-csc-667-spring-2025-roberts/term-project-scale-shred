@@ -33,4 +33,30 @@ const join = async (userId: number, gameId: number, password: string = "") => {
   return playerCount;
 };
 
-export default { create, join };
+const leave = async (userId: number, gameId: number): Promise<number> => {
+  try {
+    await db.none(
+      `
+      DELETE FROM game_users
+      WHERE user_id = $1 AND game_id = $2;
+      `,
+      [userId, gameId],
+    );
+
+    const { playerCount } = await db.one<{ playerCount: number }>(
+      `
+      SELECT COUNT(*) AS playerCount
+      FROM game_users
+      WHERE game_id = $1;
+      `,
+      [gameId],
+    );
+
+    return playerCount;
+  } catch (error) {
+    console.error("Error leaving game:", error);
+    throw error;
+  }
+};
+
+export default { create, join, leave };

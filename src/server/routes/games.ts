@@ -62,6 +62,26 @@ router.post("/join/:gameId", async (request: Request, response: Response) => {
   }
 });
 
+router.post("/leave/:gameId", async (request: Request, response: Response) => {
+  const { gameId } = request.params;
+  // @ts-ignore
+  const { id: userId } = request.session.user;
+
+  try {
+    const remainingPlayers = await Game.leave(userId, parseInt(gameId));
+    console.log({ remainingPlayers });
+    response.redirect(`/lobby`);
+  } catch (error: any) {
+    console.log({ error });
+    if (error?.message === "User not in game") {
+      return response.redirect(
+        `/games/${gameId}?leaveError=You were not in this game.`,
+      );
+    }
+    response.redirect("/lobby");
+  }
+});
+
 router.get("/:gameId", async (request: Request, response: Response) => {
   const { gameId } = request.params;
 

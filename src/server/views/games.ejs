@@ -19,6 +19,9 @@
     <main>
         <div id="container">
             Game page <%= gameId %>
+                <form action="/games/leave/<%= gameId %>" method="post">
+                    <button type="submit">Leave</button>
+                </form>
                 <ul id="player-list">
                     <% if (players && players.length> 0) { %>
                         <% players.forEach(player=> { %>
