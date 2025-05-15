@@ -22,6 +22,11 @@
                 <form action="/games/leave/<%= gameId %>" method="post">
                     <button type="submit">Leave</button>
                 </form>
+                <!-- need to add condition based on being host and create the route
+                 <form action="/games/end/<%= gameId %>" method="post">
+                    <button type="submit">End Game</button>
+                </form>
+                -->
                 <ul id="player-list">
                     <% if (players && players.length> 0) { %>
                         <% players.forEach(player=> { %>
@@ -32,7 +37,30 @@
                                 <% } else { %>
                                     <li>No players currently in the lobby.</li>
                                     <% } %>
+
+             <!-- need to add condition based on max users being present 
+                <div id="room-container">
+                <section id="game">
+                        <div class="chat-message"></div>
+                            <div class="enemy"></div> x max players
+                            <div class="hand"></div>
+                            <div class="actions"></div>
+                        </div>
+                </section>
+
+                <section id="chat">
+                    <div class="chat-container">
+                        <div class="chat-message"></div>
+                    </div>
+                    <form class="chat-form">
+                        <input type="text" id="message-box" name="message" placeholder="Type your message here">
+                        <button id="submit-message" type="submit">Send</button>
+                    </form>
+                </section>
+            </div>
+                -->
         </div>
+
     </main>
 </body>
 

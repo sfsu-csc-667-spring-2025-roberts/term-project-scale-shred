@@ -35,7 +35,6 @@
                     <h2>Join games</h2>
                     <button id="create-game-button">Create Game</button>
                     <div class="games-container">
-                        <div class="chat-message"></div>
                         <% if (games && games.length> 0) { %>
                             <% games.forEach(function(game) { %>
                                 <div class="game-instance">
@@ -47,7 +46,7 @@
                                                 <%= game.players.join(", ") %></span>
                                             <% } %>
                                         </div>
-                                        <form action="/games/join/<%=game.id %>" method="post">
+                                        <form action=" /games/join/<%=game.id %>" method="post">
                                                     <label for="password">Password:</label>
                                                     <input type="password" id="password" name="password">
                                                     <button type="submit">Join</button>
