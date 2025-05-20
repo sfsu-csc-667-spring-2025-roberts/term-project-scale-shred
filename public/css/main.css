@@ -389,7 +389,8 @@ section#chat .chat-container {
   box-sizing: border-box;
 }
 
-#message-box {
+#message-box,
+#password {
   width: 75%;
   border: 1px solid #e3e3e3;
   border-radius: 4px;
@@ -397,6 +398,10 @@ section#chat .chat-container {
   resize: vertical;
   font-size: clamp(14px, 1.25vw, 16px);
   box-sizing: border-box;
+}
+
+#password {
+  width: 50%;
 }
 
 #submit-message {
@@ -510,4 +515,73 @@ footer {
   position: fixed;
   bottom: 0px;
   width: 100%;
+}
+
+.lobby-nav {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.start-button {
+  background: #2e8b09;
+  color: #ffffff;
+  border: none;
+  padding: clamp(0.25rem, 0.5vw, 0.5rem) clamp(0.5rem, 1vw, 1rem);
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: clamp(0.25rem, 0.5vw, 0.5rem);
+  font-family: "Arial";
+  font-size: clamp(14px, 1.25vw, 16px);
+  box-sizing: border-box;
+}
+
+.start-button:hover {
+  background: #26547c;
+}
+
+.leave-button {
+  background: #f9de0e;
+  color: #ffffff;
+  border: none;
+  padding: clamp(0.25rem, 0.5vw, 0.5rem) clamp(0.5rem, 1vw, 1rem);
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: clamp(0.25rem, 0.5vw, 0.5rem);
+  font-family: "Arial";
+  font-size: clamp(14px, 1.25vw, 16px);
+  box-sizing: border-box;
+}
+
+.leave-button:hover {
+  background: #c50400;
+}
+
+.end-button {
+  background: #0149a5;
+  color: #ffffff;
+  border: none;
+  padding: clamp(0.25rem, 0.5vw, 0.5rem) clamp(0.5rem, 1vw, 1rem);
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: clamp(0.25rem, 0.5vw, 0.5rem);
+  font-family: "Arial";
+  font-size: clamp(14px, 1.25vw, 16px);
+  box-sizing: border-box;
+}
+
+.end-button:hover {
+  background: #f9de0e;
+}
+
+#player-list li {
+  font-size: clamp(12px, 24px, 36px);
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+#player-list li:hover {
+  font-size: clamp(12px, 24px, 36px);
 }

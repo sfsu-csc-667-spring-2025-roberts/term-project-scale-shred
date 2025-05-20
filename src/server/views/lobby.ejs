@@ -28,12 +28,10 @@
                 </div>
             </div>
 
-            <!-- hard-coded for now. we can make these dynamic later. put these in shared directory later -->
-            <!-- added the dynamic EJS code: this will show only real games from our database -->
             <div id="lobby-container">
                 <section id="game">
                     <h2>Join games</h2>
-                    <button id="create-game-button">Create Game</button>
+                    <button class="reset-button" id="create-game-button">Create Game</button>
                     <div class="games-container">
                         <% if (games && games.length> 0) { %>
                             <% games.forEach(function(game) { %>
@@ -49,7 +47,7 @@
                                         <form action=" /games/join/<%=game.id %>" method="post">
                                                     <label for="password">Password:</label>
                                                     <input type="password" id="password" name="password">
-                                                    <button type="submit">Join</button>
+                                                    <button class="submit-button" type="submit">Join</button>
                                                     </form>
                                     </div>
                                     <% }); %>

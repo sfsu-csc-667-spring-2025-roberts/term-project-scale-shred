@@ -49,6 +49,7 @@ router.get("/:gameId", async (request: Request, response: Response) => {
       players,
       isCreator,
       canStartGame,
+      roomId: gameId,
     });
   } catch (error) {
     console.error("Error fetching game details:", error);
@@ -57,6 +58,7 @@ router.get("/:gameId", async (request: Request, response: Response) => {
       players: [],
       isCreator: false,
       canStartGame: false,
+      roomId: gameId,
     });
   }
 });
@@ -133,12 +135,10 @@ router.post("/start/:gameId", async (request: Request, response: Response) => {
         gameId: gameInstanceId,
         newGameId,
       });
-      response
-        .status(200)
-        .send({
-          message: "Game started, players will be notified.",
-          newGameId,
-        });
+      response.status(200).send({
+        message: "Game started, players will be notified.",
+        newGameId,
+      });
     } else {
       response.status(500).send({ error: "Socket.IO not initialized." });
     }
