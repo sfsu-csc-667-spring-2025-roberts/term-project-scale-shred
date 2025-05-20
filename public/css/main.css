@@ -586,3 +586,48 @@ footer {
 #player-list li:hover {
   font-size: clamp(12px, 24px, 36px);
 }
+
+.card-container {
+  width: 50%;
+}
+
+.hand {
+  display: inline-flex;
+  flex-direction: row;
+}
+
+.hand li {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  padding-left: 0px;
+  padding-right: 0px;
+  text-align: center;
+  margin-left: 0px;
+  margin-right: 0px;
+  list-style-type: none;
+  height: 128px;
+}
+
+.cards {
+  height: auto;
+  width: auto;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+#opponentOne {
+  transform: rotate(180deg);
+}
+
+#opponentTwo {
+  transform: rotate(90deg);
+}
+
+#opponentThree {
+  transform: rotate(270deg);
+}
+
+#self {
+  transform: rotate(0deg);
+}

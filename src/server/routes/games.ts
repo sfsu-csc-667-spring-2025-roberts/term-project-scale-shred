@@ -2,7 +2,6 @@ import express from "express";
 import { Request, Response } from "express";
 
 import { Game } from "../db";
-import db from "../db/connection";
 
 const router = express.Router();
 

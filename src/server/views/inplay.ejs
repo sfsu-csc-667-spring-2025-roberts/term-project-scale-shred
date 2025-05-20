@@ -40,7 +40,20 @@
 
                 <div id="lobby-container">
                     <section id="game">
-                        
+                        <div class="card-container">
+                            <div id="opponentOne" class="hand-container opponent">
+                                <%- include('shared/opponentHand') %>
+                            </div>
+                            <div id="opponentTwo" class="hand-container opponent">
+                                <%- include('shared/opponentHand') %>
+                            </div>
+                            <div id="opponentThree" class="hand-container opponent">
+                                <%- include('shared/opponentHand') %>
+                            </div>
+                            <div id="self" class="hand-container self">
+                                <%- include('shared/playerHand') %>
+                            </div>
+                        </div>
                     </section>
 
                     <section id="chat">

@@ -10,4 +10,11 @@ router.get("/", (request, response) => {
   response.render("root", { title, name });
 });
 
+router.get("/cards", (request, response) => {
+  const title = "Scale Shred UNO";
+  const name = "Team 12";
+
+  response.render("cards", { title, name });
+});
+
 export default router;
