@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>
+    </title>
+    <%- include('shared/head') %>
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
+            <h1>
+                Scale Shred UNO!
+            </h1>
+        </div>
+    </header>
+    <main>
+        <div id="container" data-game-id="<%= gameId %>">
+            Game page <%= gameId %>
+
+                <div class="lobby-nav">
+                    <% if (isCreator && canStartGame) { %>
+                        <form action="/games/start/<%= gameId %>" method="post">
+                            <button class="start-button" type="submit">Start Game</button>
+                        </form>
+                        <% } %>
+
+                            <form action="/games/leave/<%= gameId %>" method="post">
+                                <button class="leave-button" type="submit">Leave</button>
+                            </form>
+
+                            <% if (isCreator) { %>
+                                <form action="/games/end/<%= gameId %>" method="post">
+                                    <button class="end-button" type="submit">End Game</button>
+                                </form>
+                                <% } %>
+                </div>
+
+                <div id="lobby-container">
+                    <section id="game">
+                        
+                    </section>
+
+                    <section id="chat">
+                        <div class="chat-container">
+                            <div class="chat-message"></div>
+                        </div>
+                        <form class="chat-form">
+                            <input type="text" id="message-box" name="message" placeholder="Type your message here">
+                            <button id="submit-message" type="submit">Send</button>
+                        </form>
+                    </section>
+                </div>
+        </div>
+
+    </main>
+    <%- include('shared/templates') %>
+
+</body>
+
+</html>

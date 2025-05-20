@@ -1,8 +1,7 @@
 <link rel="stylesheet" href="/css/main.css">
 
-<div id="create-game-container" style="display:none;">
+<div id="create-game-container">
     <form id="create-game-form" action="/games/create" method="POST" class="create-game-form">
-      <button id="close-create-game-form" style="float:right;">Cancel</button>
       <h2>Create a New Game</h2>
       <div class="form-group">
         <label for="description">Description</label>
@@ -20,6 +19,7 @@
         <label for="password">Password <span style="font-size:0.9em;color:#888;">(optional)</span></label>
         <input type="text" id="password" name="password" placeholder="Optional password" />
       </div>
-      <button type="submit" class="primary-btn">Create Game</button>
+      <button class="submit-button" type="submit" class="primary-btn">Create Game</button>
+      <button class="reset-button"  id="close-create-game-form" style="float:right;">Cancel</button>
     </form>
   </div>

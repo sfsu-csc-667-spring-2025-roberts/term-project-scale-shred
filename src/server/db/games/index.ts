@@ -60,4 +60,89 @@ const leave = async (userId: number, gameId: number): Promise<number> => {
   }
 };
 
-export default { create, join, leave };
+const getGameDetails = async (gameId: string) => {
+  return db.oneOrNone<{
+    creator_user_id: number;
+    min_players: number;
+    player_count: string;
+  }>(
+    `
+    SELECT gi.creator_user_id, gi.min_players, COUNT(gu.user_id) AS player_count
+    FROM game_instance gi
+    LEFT JOIN game_users gu ON gi.id = gu.game_id
+    WHERE gi.id = $1
+    GROUP BY gi.id, gi.creator_user_id, gi.min_players
+    `,
+    [gameId],
+  );
+};
+
+const getPlayersInGame = async (gameId: string) => {
+  return db.any<{ username: string }>(
+    `
+    SELECT u.username
+    FROM game_users gp
+    JOIN users u ON gp.user_id = u.id
+    WHERE gp.game_id = $1
+    `,
+    [gameId],
+  );
+};
+
+const updateGameStatusToInProgress = async (gameInstanceId: string) => {
+  return db.none(
+    `
+    UPDATE game_instance
+    SET status = 'in_progress'
+    WHERE id = $1
+    `,
+    [gameInstanceId],
+  );
+};
+
+const getPlayerIdsInGame = async (gameInstanceId: string) => {
+  return db.any<{ user_id: number }>(
+    `
+    SELECT user_id
+    FROM game_users
+    WHERE game_id = $1
+    `,
+    [gameInstanceId],
+  );
+};
+
+const createNewGameRecord = async (
+  gameInstanceId: string,
+  currentPlayerId: number,
+) => {
+  return db.one<{ id: number }>(
+    `
+    INSERT INTO game (game_instance_id, current_player_id, /* other initial game state columns */ created_at)
+    VALUES ($1, $2, /* initial values */ NOW())
+    RETURNING id;
+    `,
+    [gameInstanceId, currentPlayerId],
+  );
+};
+
+const deleteGameInstance = async (gameInstanceId: string) => {
+  return db.none(
+    `
+    DELETE FROM game_instance
+    WHERE id = $1
+    `,
+    [gameInstanceId],
+  );
+};
+
+export default {
+  create,
+  join,
+  leave,
+  getGameDetails,
+  getPlayersInGame,
+  updateGameStatusToInProgress,
+  getPlayerIdsInGame,
+  createNewGameRecord,
+  deleteGameInstance,
+};
