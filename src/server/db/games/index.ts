@@ -13,6 +13,7 @@ const create = async (
     minPlayers,
     maxPlayers,
     password,
+    userId,
   ]);
 
   await db.none(ADD_PLAYER, [gameId, userId]);

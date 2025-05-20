@@ -2,66 +2,54 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>
-    </title>
-    <%- include('shared/head') %>
+  <meta charset="UTF-8">
+  <title>
+  </title>
+  <%- include('shared/head') %>
 </head>
 
 <body>
-    <header>
-        <div class="logo-container">
-            <h1>
-                Scale Shred UNO!
-            </h1>
-        </div>
-    </header>
-    <main>
-        <div id="container">
-            Game page <%= gameId %>
-                <form action="/games/leave/<%= gameId %>" method="post">
-                    <button type="submit">Leave</button>
-                </form>
-                <!-- need to add condition based on being host and create the route
-                 <form action="/games/end/<%= gameId %>" method="post">
-                    <button type="submit">End Game</button>
-                </form>
-                -->
-                <ul id="player-list">
-                    <% if (players && players.length> 0) { %>
-                        <% players.forEach(player=> { %>
-                            <li>
-                                <%= player.username %>
-                            </li>
-                            <% }); %>
-                                <% } else { %>
-                                    <li>No players currently in the lobby.</li>
-                                    <% } %>
+  <header>
+    <div class="logo-container">
+      <h1>
+        Scale Shred UNO!
+      </h1>
+    </div>
+  </header>
+  <main>
+    <div id="container" data-game-id="<%= gameId %>">
+      Game page <%= gameId %>
 
-             <!-- need to add condition based on max users being present 
-                <div id="room-container">
-                <section id="game">
-                        <div class="chat-message"></div>
-                            <div class="enemy"></div> x max players
-                            <div class="hand"></div>
-                            <div class="actions"></div>
-                        </div>
-                </section>
+      <% if (isCreator && canStartGame) { %>
+        <form action="/games/start/<%= gameId %>" method="post">
+          <button type="submit">Start Game</button>
+        </form>
+      <% } %>
 
-                <section id="chat">
-                    <div class="chat-container">
-                        <div class="chat-message"></div>
-                    </div>
-                    <form class="chat-form">
-                        <input type="text" id="message-box" name="message" placeholder="Type your message here">
-                        <button id="submit-message" type="submit">Send</button>
-                    </form>
-                </section>
-            </div>
-                -->
-        </div>
+      <form action="/games/leave/<%= gameId %>" method="post">
+        <button type="submit">Leave</button>
+      </form>
 
-    </main>
+      <% if (isCreator) { %>
+        <form action="/games/end/<%= gameId %>" method="post">
+          <button type="submit">End Game</button>
+        </form>
+      <% } %>
+
+      <ul id="player-list">
+        <% if (players && players.length > 0) { %>
+          <% players.forEach(player => { %>
+            <li>
+              <%= player.username %>
+            </li>
+          <% }); %>
+        <% } else { %>
+          <li>No players currently in the lobby.</li>
+        <% } %>
+      </ul>
+    </div>
+
+  </main>
 </body>
 
 </html>

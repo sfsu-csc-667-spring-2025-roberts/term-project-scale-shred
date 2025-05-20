@@ -1,7 +1,8 @@
 export const CREATE_SQL = `
-INSERT INTO game_instance (name, min_players, max_players, password)
-VALUES ($1, $2, $3, $4)
-RETURNING id`;
+  INSERT INTO game_instance (name, min_players, max_players, password, creator_user_id)
+  VALUES ($1, $2, $3, $4, $5)
+  RETURNING id;
+`;
 
 export const ADD_PLAYER = `
 INSERT INTO game_users (game_id, user_id)

@@ -27,6 +27,11 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
       type: "timestamp",
       default: pgm.func("now()"),
     },
+    creator_user_id: {
+      type: "integer",
+      notNull: true,
+      references: "users(id)",
+    },
   });
 }
 

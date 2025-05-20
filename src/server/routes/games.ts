@@ -6,6 +6,61 @@ import db from "../db/connection";
 
 const router = express.Router();
 
+router.get("/:gameId", async (request: Request, response: Response) => {
+  const { gameId } = request.params;
+
+  try {
+    // @ts-ignore
+    const loggedInUserId = request.session?.user?.id;
+
+    // Fetch game details, including the creator_user_id and player count
+    const gameDetails = await db.oneOrNone(
+      `
+      SELECT gi.creator_user_id, gi.min_players, COUNT(gu.user_id) AS player_count
+      FROM game_instance gi
+      LEFT JOIN game_users gu ON gi.id = gu.game_id
+      WHERE gi.id = $1
+      GROUP BY gi.id, gi.creator_user_id, gi.min_players
+      `,
+      [gameId],
+    );
+
+    if (!gameDetails) {
+      return response.redirect("/lobby?error=Game not found.");
+    }
+
+    const isCreator = loggedInUserId === gameDetails.creator_user_id;
+    const canStartGame =
+      isCreator && gameDetails.player_count >= gameDetails.min_players;
+
+    // Gathers player data to output
+    const players = await db.any(
+      `
+      SELECT u.username
+      FROM game_users gp
+      JOIN users u ON gp.user_id = u.id
+      WHERE gp.game_id = $1
+      `,
+      [gameId],
+    );
+
+    response.render("games", {
+      gameId,
+      players,
+      isCreator,
+      canStartGame,
+    });
+  } catch (error) {
+    console.error("Error fetching game details:", error);
+    response.render("games", {
+      gameId,
+      players: [],
+      isCreator: false,
+      canStartGame: false,
+    });
+  }
+});
+
 router.post("/create", async (request: Request, response: Response) => {
   // @ts-ignore
   const { id: userId } = request.session.user;
@@ -30,10 +85,66 @@ router.post("/create", async (request: Request, response: Response) => {
     response.redirect(`/games/${gameId}`);
   } catch (error: any) {
     console.error("Game creation error:", error);
-    // Optionally provide the error message to the user
     return response.redirect(
       `/lobby?createError=Could not create game. Please check your input and try again.`,
     );
+  }
+});
+
+router.post("/start/:gameId", async (request: Request, response: Response) => {
+  const { gameId: gameInstanceId } = request.params;
+
+  try {
+    await db.none(
+      `
+      UPDATE game_instance
+      SET status = 'in_progress'
+      WHERE id = $1
+      `,
+      [gameInstanceId],
+    );
+
+    const players = await db.any(
+      `
+      SELECT user_id
+      FROM game_users
+      WHERE game_id = $1
+      `,
+      [gameInstanceId],
+    );
+
+    const newGame = await db.one(
+      `
+      INSERT INTO game (game_instance_id, current_player_id, /* other initial game state columns */ created_at)
+      VALUES ($1, $2, /* initial values */ NOW())
+      RETURNING id;
+      `,
+      [gameInstanceId, players[0].user_id],
+    );
+
+    const newGameId = newGame.id;
+
+    // this is where we need to initialize the game state so someone pls hop on this asap
+
+    const io = request.app.get("socketio");
+
+    if (io) {
+      io.to(`game-${gameInstanceId}`).emit("game-started", {
+        gameId: gameInstanceId,
+        newGameId,
+      });
+      response
+        .status(200)
+        .send({
+          message: "Game started, players will be notified.",
+          newGameId,
+        });
+    } else {
+      response.status(500).send({ error: "Socket.IO not initialized." });
+    }
+  } catch (error) {
+    console.error("Error starting game and creating game instance:", error);
+    response.status(500).send("Failed to start the game.");
   }
 });
 
@@ -49,11 +160,7 @@ router.post("/join/:gameId", async (request: Request, response: Response) => {
     response.redirect(`/games/${gameId}`);
   } catch (error: any) {
     console.log({ error });
-    // Handle no data returned from query (join failed)
     if (error?.name === "QueryResultError" && error?.code === "0") {
-      // If you use connect-flash or similar, you can set a flash message here
-      // request.flash('error', 'Could not join game: wrong password, already joined, or game is full.');
-      // For now, just send a query param as fallback
       return response.redirect(
         `/lobby?joinError=Could not join game: wrong password, already joined, or game is full.`,
       );
@@ -82,25 +189,31 @@ router.post("/leave/:gameId", async (request: Request, response: Response) => {
   }
 });
 
-router.get("/:gameId", async (request: Request, response: Response) => {
-  const { gameId } = request.params;
+router.post("/end/:gameId", async (request: Request, response: Response) => {
+  const { gameId: gameInstanceId } = request.params;
+  // @ts-ignore
 
   try {
-    //gathers player data to output
-    const players = await db.any(
+    const io = request.app.get("socketio");
+
+    if (io) {
+      io.to(`game-${gameInstanceId}`).emit("game-ended", {
+        gameId: gameInstanceId,
+      });
+    }
+
+    await db.none(
       `
-      SELECT u.username
-      FROM game_users gp
-      JOIN users u ON gp.user_id = u.id
-      WHERE gp.game_id = $1
-    `,
-      [gameId],
+      DELETE FROM game_instance
+      WHERE id = $1
+      `,
+      [gameInstanceId],
     );
 
-    response.render("games", { gameId, players }); // Passes the players data
+    response.redirect("/lobby");
   } catch (error) {
-    console.error("Error fetching game players:", error);
-    response.render("games", { gameId, players: [] });
+    console.error("Error ending and deleting game:", error);
+    response.status(500).send("Failed to end and delete the game.");
   }
 });
 
