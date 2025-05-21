@@ -1,5 +1,0 @@
-
-ALTER TABLE player_hands
-  DROP COLUMN player_name,
-  ADD COLUMN user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  ADD COLUMN cards TEXT[] NOT NULL;
