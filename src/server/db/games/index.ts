@@ -1,5 +1,17 @@
 import db from "../connection";
-import { ADD_PLAYER, CONDITIONALLY_JOIN_SQL, CREATE_SQL } from "./sql";
+import {
+  ADD_PLAYER,
+  CONDITIONALLY_JOIN_SQL,
+  CREATE_SQL,
+  USER_LEAVE,
+  UPDATE_COUNT,
+  GET_DETAILS,
+  GET_PLAYERS,
+  UPDATE_STATUS,
+  GET_PLAYER_ID,
+  CREATE_GAME,
+  DELETE_GAME_INSTANCE,
+} from "./sql";
 
 const create = async (
   name: string,
@@ -36,20 +48,10 @@ const join = async (userId: number, gameId: number, password: string = "") => {
 
 const leave = async (userId: number, gameId: number): Promise<number> => {
   try {
-    await db.none(
-      `
-      DELETE FROM game_users
-      WHERE user_id = $1 AND game_id = $2;
-      `,
-      [userId, gameId],
-    );
+    await db.one(USER_LEAVE, [userId, gameId]);
 
     const { playerCount } = await db.one<{ playerCount: number }>(
-      `
-      SELECT COUNT(*) AS playerCount
-      FROM game_users
-      WHERE game_id = $1;
-      `,
+      UPDATE_COUNT,
       [gameId],
     );
 
@@ -65,74 +67,30 @@ const getGameDetails = async (gameId: string) => {
     creator_user_id: number;
     min_players: number;
     player_count: string;
-  }>(
-    `
-    SELECT gi.creator_user_id, gi.min_players, COUNT(gu.user_id) AS player_count
-    FROM game_instance gi
-    LEFT JOIN game_users gu ON gi.id = gu.game_id
-    WHERE gi.id = $1
-    GROUP BY gi.id, gi.creator_user_id, gi.min_players
-    `,
-    [gameId],
-  );
+  }>(GET_DETAILS, [gameId]);
 };
 
 const getPlayersInGame = async (gameId: string) => {
-  return db.any<{ username: string }>(
-    `
-    SELECT u.username
-    FROM game_users gp
-    JOIN users u ON gp.user_id = u.id
-    WHERE gp.game_id = $1
-    `,
-    [gameId],
-  );
+  return db.any<{ username: string }>(GET_PLAYERS, [gameId]);
 };
 
 const updateGameStatusToInProgress = async (gameInstanceId: string) => {
-  return db.none(
-    `
-    UPDATE game_instance
-    SET status = 'in_progress'
-    WHERE id = $1
-    `,
-    [gameInstanceId],
-  );
+  return db.none(UPDATE_STATUS, [gameInstanceId]);
 };
 
 const getPlayerIdsInGame = async (gameInstanceId: string) => {
-  return db.any<{ user_id: number }>(
-    `
-    SELECT user_id
-    FROM game_users
-    WHERE game_id = $1
-    `,
-    [gameInstanceId],
-  );
+  return db.any<{ user_id: number }>(GET_PLAYER_ID, [gameInstanceId]);
 };
 
 const createNewGameRecord = async (
   gameInstanceId: string,
   currentPlayerId: number,
 ) => {
-  return db.one<{ id: number }>(
-    `
-    INSERT INTO game (game_instance_id, current_player_id, /* other initial game state columns */ created_at)
-    VALUES ($1, $2, /* initial values */ NOW())
-    RETURNING id;
-    `,
-    [gameInstanceId, currentPlayerId],
-  );
+  return db.one<{ id: number }>(CREATE_GAME, [gameInstanceId, currentPlayerId]);
 };
 
 const deleteGameInstance = async (gameInstanceId: string) => {
-  return db.none(
-    `
-    DELETE FROM game_instance
-    WHERE id = $1
-    `,
-    [gameInstanceId],
-  );
+  return db.none(DELETE_GAME_INSTANCE, [gameInstanceId]);
 };
 
 export default {
