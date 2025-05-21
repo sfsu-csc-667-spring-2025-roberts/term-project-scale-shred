@@ -91,6 +91,8 @@ router.post("/start/:gameId", async (request: Request, response: Response) => {
       );
       const newGameId = newGame.id;
 
+      // create game here init its attributes before moving on
+
       const io = request.app.get("socketio");
 
       if (io) {
