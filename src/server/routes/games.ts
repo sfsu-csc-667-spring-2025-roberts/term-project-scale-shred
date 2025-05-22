@@ -2,6 +2,7 @@ import express from "express";
 import { Request, Response } from "express";
 
 import { Game } from "../db";
+import db from "../db/connection";
 
 const router = express.Router();
 
@@ -13,7 +14,16 @@ router.get("/:gameId", async (request: Request, response: Response) => {
     const loggedInUserId = request.session?.user?.id;
 
     // Fetch game details, including the creator_user_id and player count
-    const gameDetails = await Game.getGameDetails(gameId);
+    const gameDetails = await db.oneOrNone(
+      `
+      SELECT gi.creator_user_id, gi.min_players, COUNT(gu.user_id) AS player_count
+      FROM game_instance gi
+      LEFT JOIN game_users gu ON gi.id = gu.game_id
+      WHERE gi.id = $1
+      GROUP BY gi.id, gi.creator_user_id, gi.min_players
+      `,
+      [gameId],
+    );
 
     if (!gameDetails) {
       return response.redirect("/lobby?error=Game not found.");
@@ -21,10 +31,18 @@ router.get("/:gameId", async (request: Request, response: Response) => {
 
     const isCreator = loggedInUserId === gameDetails.creator_user_id;
     const canStartGame =
-      isCreator &&
-      parseInt(gameDetails.player_count, 10) >= gameDetails.min_players;
+      isCreator && gameDetails.player_count >= gameDetails.min_players;
 
-    const players = await Game.getPlayersInGame(gameId);
+    // Gathers player data to output
+    const players = await db.any(
+      `
+      SELECT u.username
+      FROM game_users gp
+      JOIN users u ON gp.user_id = u.id
+      WHERE gp.game_id = $1
+      `,
+      [gameId],
+    );
 
     response.render("games", {
       gameId,
@@ -79,43 +97,54 @@ router.post("/start/:gameId", async (request: Request, response: Response) => {
   const { gameId: gameInstanceId } = request.params;
 
   try {
-    await Game.updateGameStatusToInProgress(gameInstanceId);
+    await db.none(
+      `
+      UPDATE game_instance
+      SET status = 'in_progress'
+      WHERE id = $1
+      `,
+      [gameInstanceId],
+    );
 
-    const playerIds = await Game.getPlayerIdsInGame(gameInstanceId);
-    const firstPlayerId = playerIds[0]?.user_id;
+    const players = await db.any(
+      `
+      SELECT user_id
+      FROM game_users
+      WHERE game_id = $1
+      `,
+      [gameInstanceId],
+    );
 
-    if (firstPlayerId) {
-      const newGame = await Game.createNewGameRecord(
-        gameInstanceId,
-        firstPlayerId,
-      );
-      const newGameId = newGame.id;
+    const newGame = await db.one(
+      `
+      INSERT INTO game (game_instance_id, current_player_id, /* other initial game state columns */ created_at)
+      VALUES ($1, $2, /* initial values */ NOW())
+      RETURNING id;
+      `,
+      [gameInstanceId, players[0].user_id],
+    );
 
-      // create game here init its attributes before moving on
-      const topCardId = 1; // TEMP: replace with actual top card logic
-      const modeId = 1; // TEMP: set this based on selected mode
-      await Game.gameInit(topCardId, modeId, newGameId);
+    const newGameId = newGame.id;
 
-      const io = request.app.get("socketio");
+    // this is where we need to initialize the game state so someone pls hop on this asap
 
-      if (io) {
-        io.to(`game-${gameInstanceId}`).emit("game-started", {
-          gameId: gameInstanceId,
-          newGameId,
-        });
-        response.redirect(`/inplay/${gameInstanceId}`);
-      } else {
-        response.status(500).send({ error: "Socket.IO not initialized." });
-      }
+    const io = request.app.get("socketio");
+
+    if (io) {
+      io.to(`game-${gameInstanceId}`).emit("game-started", {
+        gameId: gameInstanceId,
+        newGameId,
+      });
+      response.status(200).send({
+        message: "Game started, players will be notified.",
+        newGameId,
+      });
     } else {
-      console.error("No players found in the game instance.");
-      response.redirect(`/games/${gameInstanceId}?error=No players in game.`);
+      response.status(500).send({ error: "Socket.IO not initialized." });
     }
   } catch (error) {
     console.error("Error starting game and creating game instance:", error);
-    response.redirect(
-      `/games/${gameInstanceId}?error=Failed to start the game.`,
-    );
+    response.status(500).send("Failed to start the game.");
   }
 });
 
@@ -173,7 +202,13 @@ router.post("/end/:gameId", async (request: Request, response: Response) => {
       });
     }
 
-    await Game.deleteGameInstance(gameInstanceId);
+    await db.none(
+      `
+      DELETE FROM game_instance
+      WHERE id = $1
+      `,
+      [gameInstanceId],
+    );
 
     response.redirect("/lobby");
   } catch (error) {

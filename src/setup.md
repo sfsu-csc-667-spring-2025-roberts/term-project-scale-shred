@@ -45,3 +45,35 @@
 ###### if it does work then you can move on to the last step
 
 ##### 7. enter npm run start:dev - you should now be able to do work while having all the routes accessible and can easily make and apply changes
+
+### Testing Game Logic
+
+#### To test the core UNO game mechanics in isolation, you can use the test script:
+
+##### 1. Run the test script:
+
+```
+npx ts-node src/server/game/test.ts
+```
+
+##### 2. This script will:
+
+- Create a test game with 3 players (Alice, Bob, Charlie)
+- Start the game automatically
+- Simulate turns where players play cards or draw new ones
+- Show the game state after each action
+- Continue until someone wins
+
+##### 3. Use this script when:
+
+- Developing new game features
+- Debugging game logic issues
+- Testing game rule changes
+- Verifying core game mechanics
+
+##### 4. The test output will show:
+
+- Current player's actions
+- Cards played or drawn
+- Game state updates
+- Winner declaration when the game ends
