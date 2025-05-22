@@ -79,3 +79,15 @@ export const DELETE_GAME_INSTANCE = `
 DELETE FROM game_instance
 WHERE id = $1
 `;
+
+export const INIT_GAME = `
+  UPDATE games
+  SET
+    status = 'in_progress',
+    direction = 'clockwise',
+    current_turn = 1,
+    top_card_id = $1,
+    game_mode_id = $2
+  WHERE id = $3
+  RETURNING *;
+`;

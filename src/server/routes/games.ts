@@ -92,6 +92,9 @@ router.post("/start/:gameId", async (request: Request, response: Response) => {
       const newGameId = newGame.id;
 
       // create game here init its attributes before moving on
+      const topCardId = 1; // TEMP: replace with actual top card logic
+      const modeId = 1; // TEMP: set this based on selected mode
+      await Game.gameInit(topCardId, modeId, newGameId);
 
       const io = request.app.get("socketio");
 

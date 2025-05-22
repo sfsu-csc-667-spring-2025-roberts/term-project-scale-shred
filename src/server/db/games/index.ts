@@ -11,6 +11,7 @@ import {
   GET_PLAYER_ID,
   CREATE_GAME,
   DELETE_GAME_INSTANCE,
+  INIT_GAME, // ← added here
 } from "./sql";
 
 const create = async (
@@ -93,6 +94,10 @@ const deleteGameInstance = async (gameInstanceId: string) => {
   return db.none(DELETE_GAME_INSTANCE, [gameInstanceId]);
 };
 
+const gameInit = async (topCardId: number, modeId: number, gameId: number) => {
+  return db.one(INIT_GAME, [topCardId, modeId, gameId]);
+};
+
 export default {
   create,
   join,
@@ -103,4 +108,5 @@ export default {
   getPlayerIdsInGame,
   createNewGameRecord,
   deleteGameInstance,
+  gameInit,
 };
