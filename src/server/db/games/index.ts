@@ -11,7 +11,7 @@ import {
   GET_PLAYER_ID,
   CREATE_GAME,
   DELETE_GAME_INSTANCE,
-  INIT_GAME, // ← added here
+  INIT_GAME,
 } from "./sql";
 
 const create = async (

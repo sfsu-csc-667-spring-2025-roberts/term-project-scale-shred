@@ -26,7 +26,7 @@
                             <button class="start-button" type="submit">Start Game</button>
                         </form>
                         <% } %>
-
+                        
                             <form action="/games/leave/<%= gameId %>" method="post">
                                 <button class="leave-button" type="submit">Leave</button>
                             </form>
@@ -47,7 +47,7 @@
                                     <li>
                                         <div class="icon-container">
                                             <img class="gravatar"
-                                                src="https://www.gravatar.com/avatar/<%= user.gravatar %>?s=32&d=monsterid" />
+                                                src="https://www.gravatar.com/avatar/<%= player.gravatar %>?s=32&d=monsterid" />
                                         </div>
                                         <%= player.username %>
                                     </li>

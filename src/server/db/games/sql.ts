@@ -70,8 +70,8 @@ WHERE game_id = $1
 `;
 
 export const CREATE_GAME = `
-INSERT INTO game (game_instance_id, current_player_id, /* other initial game state columns */ created_at)
-VALUES ($1, $2, /* initial values */ NOW())
+INSERT INTO games (game_instance_id, current_turn, status, created_at)
+VALUES ($1, $2, 'in_progress', NOW()) -- $1 for game_instance_id, $2 for current_turn
 RETURNING id;
 `;
 

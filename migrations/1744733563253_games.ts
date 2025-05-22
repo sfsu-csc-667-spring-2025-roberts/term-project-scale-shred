@@ -3,6 +3,12 @@ import { MigrationBuilder } from "node-pg-migrate";
 export async function up(pgm: MigrationBuilder): Promise<void> {
   pgm.createTable("games", {
     id: "id",
+    game_instance_id: {
+      type: "integer",
+      notNull: false,
+      references: "game_instance(id)",
+      onDelete: "SET NULL",
+    },
     status: {
       type: "varchar(20)",
       default: "waiting",
@@ -30,6 +36,7 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
       type: "timestamp",
     },
   });
+
   pgm.addConstraint("games", "games_top_card_id_fk", {
     foreignKeys: {
       columns: "top_card_id",

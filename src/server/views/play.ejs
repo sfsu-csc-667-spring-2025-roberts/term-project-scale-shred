@@ -17,25 +17,13 @@
         </div>
     </header>
     <main>
-        <div id="container" data-game-id="<%= gameId %>">
-            Game page <%= gameId %>
+        <div id="container" data-game-id="<%= gameInstanceId %>">
+            Game page <%= gameInstanceId %>
 
                 <div class="lobby-nav">
-                    <% if (isCreator && canStartGame) { %>
-                        <form action="/games/start/<%= gameId %>" method="post">
-                            <button class="start-button" type="submit">Start Game</button>
-                        </form>
-                        <% } %>
-
-                            <form action="/games/leave/<%= gameId %>" method="post">
+                    <form action="/games/leave/<%= gameInstanceId %>" method="post">
                                 <button class="leave-button" type="submit">Leave</button>
                             </form>
-
-                            <% if (isCreator) { %>
-                                <form action="/games/end/<%= gameId %>" method="post">
-                                    <button class="end-button" type="submit">End Game</button>
-                                </form>
-                                <% } %>
                 </div>
 
                 <div id="lobby-container">
