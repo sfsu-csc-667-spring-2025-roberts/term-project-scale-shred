@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>
+    </title>
+    <%- include('shared/head') %>
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
+            <h1>
+                Scale Shred UNO!
+            </h1>
+        </div>
+    </header>
+    <main>
+        <div id="container" data-game-id="<%= gameInstanceId %>">
+            Game page <%= gameInstanceId %>
+
+                <div class="lobby-nav">
+                    <form action="/games/leave/<%= gameInstanceId %>" method="post">
+                                <button class="leave-button" type="submit">Leave</button>
+                            </form>
+                </div>
+
+                <div id="lobby-container">
+                    <section id="game">
+                        <div class="card-container">
+                            <div id="opponentOne" class="hand-container opponent">
+                                <%- include('shared/opponentHand') %>
+                            </div>
+                            <div id="opponentTwo" class="hand-container opponent">
+                                <%- include('shared/opponentHand') %>
+                            </div>
+                            <div id="opponentThree" class="hand-container opponent">
+                                <%- include('shared/opponentHand') %>
+                            </div>
+                            <div id="self" class="hand-container self">
+                                <%- include('shared/playerHand') %>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="chat">
+                        <div class="chat-container">
+                            <div class="chat-message"></div>
+                        </div>
+                        <form class="chat-form">
+                            <input type="text" id="message-box" name="message" placeholder="Type your message here">
+                            <button id="submit-message" type="submit">Send</button>
+                        </form>
+                    </section>
+                </div>
+        </div>
+
+    </main>
+    <%- include('shared/templates') %>
+
+</body>
+
+</html>

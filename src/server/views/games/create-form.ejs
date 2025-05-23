@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="/css/main.css">
+
+<div id="create-game-container">
+    <form id="create-game-form" action="/games/create" method="POST" class="create-game-form">
+      <h2>Create a New Game</h2>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" placeholder="Optional game description" />
+      </div>
+      <div class="form-group">
+        <label for="minPlayers">Min Players</label>
+        <input type="number" id="minPlayers" name="minPlayers" min="2" max="10" value="2" required />
+      </div>
+      <div class="form-group">
+        <label for="maxPlayers">Max Players</label>
+        <input type="number" id="maxPlayers" name="maxPlayers" min="2" max="10" value="4" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password <span style="font-size:0.9em;color:#888;">(optional)</span></label>
+        <input type="text" id="password" name="password" placeholder="Optional password" />
+      </div>
+      <button class="submit-button" type="submit" class="primary-btn">Create Game</button>
+      <button class="reset-button"  id="close-create-game-form" style="float:right;">Cancel</button>
+    </form>
+  </div>

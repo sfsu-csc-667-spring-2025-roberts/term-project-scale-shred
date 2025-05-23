@@ -1,10 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <!-- title should be in tab header, not in app frame. -->
-        <title><%= title %></title>
-    </head>
-    <body>
-        <p>Hello <%= name %></p>
-    </body>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>
+        <%= title %>
+    </title>
+    <%- include('shared/head') %>
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
+            <h1>
+                Scale Shred UNO!
+            </h1>
+        </div>
+    </header>
+    <main>
+        <%- include('shared/guestMenu') %>
+    </main>
+</body>
+
 </html>

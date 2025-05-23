@@ -1,0 +1,32 @@
+<input type="hidden" id="room-id" value="<%= roomId %>" />
+
+<template id="chat-message-template">
+    <div class="chat-message">
+        <img class="gravatar" src="#" alt="#">
+        <span class="timestamp"></span>
+        <span class="message"></span>
+    </div>
+</template>
+
+<!-- this is a template of the one below. we don't need to type all of these out -->
+<!-- see index.ts in chat for template approach -->
+<!-- 
+const container = document.createElement("div");
+    container.className = "chat-message";
+
+    const img = document.createElement("img");
+    img.className = "gravatar";
+    img.src = `https://www.gravatar.com/avatar/${gravatar}?s=32&d=monsterid`;
+    img.alt = `Gravatar of ${sender}`;
+
+    const displayTime = document.createElement("span");
+    displayTime.className = "timestamp";
+    displayTime.innerText = new Date(timestamp).toLocaleTimeString();
+
+    const messageText = document.createElement("span");
+    messageText.innerText = message;
+
+    container.appendChild(img);
+    container.appendChild(displayTime);
+    container.appendChild(messageText);
+ -->
