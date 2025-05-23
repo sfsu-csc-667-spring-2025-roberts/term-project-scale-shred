@@ -18,6 +18,7 @@
         </div>
     </header>
     <main>
+        <%- include('shared/menu') %>
         <div id="container">
             <div class="sub-header">
                 <h2>
@@ -46,7 +47,7 @@
                                         </div>
                                         <form action=" /games/join/<%=game.id %>" method="post">
                                                     <label for="password">Password:</label>
-                                                    <input type="password" id="password" name="password">
+                                                    <input class="gamepassword" type="password" id="password" name="password">
                                                     <button class="submit-button" type="submit">Join</button>
                                                     </form>
                                     </div>
